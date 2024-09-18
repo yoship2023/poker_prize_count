@@ -7,10 +7,6 @@ def calculate_rtp(prize_pool, total_entry_fee):
     return (prize_pool / total_entry_fee) * 100
 
 def calculate_entries_for_rtp(entry_fee, rtp_target, total_prize):
-    print(entry_fee)
-    print(rtp_target)
-    print(total_prize)
-
     if rtp_target == 0:
         return 0
     prize_pool = total_prize / (rtp_target / 100 * entry_fee)

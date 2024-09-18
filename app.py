@@ -9,8 +9,8 @@ def calculate_rtp(prize_pool, total_entry_fee):
 def calculate_entries_for_rtp(entry_fee, rtp_target, total_prize):
     if rtp_target == 0:
         return 0
-    prize_pool = (rtp_target / 100) * total_prize
-    return prize_pool / entry_fee
+    prize_pool = total_prize / (rtp_target / 100 * entry_fee)
+    return prize_pool
 
 st.title("プライズかぞえチャオ")
 

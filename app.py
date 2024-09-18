@@ -6,10 +6,10 @@ def calculate_rtp(prize_pool, total_entry_fee):
         return 0
     return (prize_pool / total_entry_fee) * 100
 
-def calculate_entries_for_rtp(entry_fee, rtp_target, total_entry_fee):
+def calculate_entries_for_rtp(entry_fee, rtp_target, total_prize):
     if rtp_target == 0:
         return 0
-    prize_pool = (rtp_target / 100) * total_entry_fee
+    prize_pool = (rtp_target / 100) * total_prize
     return prize_pool / entry_fee
 
 st.title("プライズかぞえチャオ")
@@ -39,7 +39,7 @@ if st.button("還元率を計算"):
 
     # 還元率ごとのエントリー数計算
     rtp_targets = [100, 90, 80, 70]
-    entries_needed = [calculate_entries_for_rtp(entry_fee, rtp_target, total_entry_fee) for rtp_target in rtp_targets]
+    entries_needed = [calculate_entries_for_rtp(entry_fee, rtp_target, prize_pool) for rtp_target in rtp_targets]
 
     # 結果を表形式で表示
     rtp_df = pd.DataFrame({

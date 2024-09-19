@@ -51,7 +51,8 @@ c_total_entry_fee = '{:,}'.format(total_entry_fee)
 
 if st.button("還元率を計算"):
     rtp = calculate_rtp(prize_pool, total_entry_fee)
-    st.success(f"賞金総額は {c_prize_pool:} 円、エントリー費用の合計は {c_total_entry_fee:} 円、還元率は {rtp:.2f} % です！")
+    # st.success(f"賞金総額は {c_prize_pool:} 円、エントリー費用の合計は {c_total_entry_fee:} 円、還元率は {rtp:.2f} % です！")
+    st.success(f"賞金総額は {prize_pool:,} 円、エントリー費用の合計は {total_entry_fee:,} 円、還元率は {rtp:.2f} % です！")
 
     # 還元率ごとのエントリー数計算
     rtp_targets = [100, 90, 80, 70]

@@ -26,7 +26,8 @@ num_entries = st.number_input("エントリー数", min_value=1, value=1)
 
 # プライズ通貨の選択（ラジオボタン）
 currency = st.radio("プライズ通貨を選択", ("ドル", "円"))
-exchange_rate = st.number_input("1ドルのレート（円）", min_value=0.01 if currency == "ドル" else 0, value=140.0)
+if currency == "ドル":
+    exchange_rate = st.number_input("1ドルのレート（円）", min_value=0.01, value=140.0)
 
 prize_pool_input = st.number_input("賞金総額", min_value=0, value=1)
 

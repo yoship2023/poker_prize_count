@@ -61,3 +61,13 @@ if st.button("還元率を計算"):
 
     st.subheader("還元率ごとの必要エントリー数")
     st.table(rtp_df)
+
+# 画面の下部にTwitterリンクを追加
+st.markdown(
+"""
+---
+Produced by Yoship.
+Follow me on X: [yoship](https://twitter.com/yoship2023)
+""",
+unsafe_allow_html=True,
+)

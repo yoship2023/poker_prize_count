@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+from decimal import *
+
 def calculate_rtp(prize_pool, total_entry_fee):
     if total_entry_fee == 0:
         return 0
@@ -10,12 +12,16 @@ def calculate_entries_for_rtp(entry_fee, rtp_target, total_prize):
     if rtp_target == 0:
         return 0
     prize_pool = total_prize / (rtp_target / 100 * entry_fee)
-    return prize_pool
+    # 小数第1位で四捨五入
+    d_prize_pool = Decimal(str(prize_pool)) # 必ず文字列で渡す
+    d_prize_pool = d_prize_pool.quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+    return int(d_prize_pool)
 
 st.title("プライズかぞえチャオ")
 
 # 入力フォーム
-entry_fee = st.number_input("エントリー費用（円）", min_value=0, value=1000, step=1000)
+entry_fee = st.number_input("エントリー費用（円）", min_value=1, value=10000, step=1000)
 num_entries = st.number_input("エントリー数", min_value=1, value=1)
 
 # プライズ通貨の選択（ラジオボタン）
@@ -30,12 +36,21 @@ if currency == "ドル":
 else:
     prize_pool = prize_pool_input
 
+# 賞金総額を小数第1位で四捨五入
+d_prize_pool = Decimal(str(prize_pool)) # 必ず文字列で渡す
+d_prize_pool = d_prize_pool.quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+# 賞金総額をカンマ区切りに変換
+c_prize_pool = '{:,}'.format(d_prize_pool)
+
 # エントリー費用の合計
 total_entry_fee = entry_fee * num_entries
 
+# エントリー費用の合計をカンマ区切りに変換
+c_total_entry_fee = '{:,}'.format(total_entry_fee)
+
 if st.button("還元率を計算"):
     rtp = calculate_rtp(prize_pool, total_entry_fee)
-    st.success(f"プライズプールの合計は {total_entry_fee:} 円、還元率は {rtp:.2f} % です！")
+    st.success(f"賞金総額は {c_prize_pool:} 円、エントリー費用の合計は {c_total_entry_fee:} 円、還元率は {rtp:.2f} % です！")
 
     # 還元率ごとのエントリー数計算
     rtp_targets = [100, 90, 80, 70]
@@ -46,6 +61,6 @@ if st.button("還元率を計算"):
         "還元率 (%)": rtp_targets,
         "必要エントリー数": entries_needed
     })
-    
+
     st.subheader("還元率ごとの必要エントリー数")
     st.table(rtp_df)
